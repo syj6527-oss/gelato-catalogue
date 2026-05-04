@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GELATO v4.5 — 모듈 카탈로그</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Nanum+Myeongjo:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #f5efe0;
+  --bg-elevated: #fbf6e9;
+  --bg-card: #fdfaf0;
+  --ink: #3a2e22;
+  --ink-soft: #6a5644;
+  --ink-faint: #9a8870;
+  --accent-pistachio: #6b8a4a;
+  --accent-raspberry: #b85a5a;
+  --accent-vanilla: #a88550;
+  --accent-cocoa: #6b5240;
+  --accent-rose: #b07878;
+  --accent-mint: #5a9a85;
+  --line: rgba(58, 46, 34, 0.08);
+  --line-strong: rgba(58, 46, 34, 0.16);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Nanum Myeongjo', 'Fraunces', serif;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(107, 138, 74, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(184, 90, 90, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.35'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+  opacity: 0.15;
+}
+
+.container { position: relative; z-index: 2; }
+
+/* HEADER */
+.header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 24px;
+  text-align: center;
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand-mark {
+  font-size: 14px;
+  letter-spacing: 0.4em;
+  color: var(--ink-faint);
+  margin-bottom: 60px;
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+}
+
+.header-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(64px, 14vw, 180px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin-bottom: 8px;
+  font-variation-settings: "opsz" 144;
+}
+
+.header-title em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent-vanilla);
+}
+
+.header-version {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(32px, 5vw, 56px);
+  color: var(--accent-pistachio);
+  margin-bottom: 60px;
+}
+
+.header-subtitle {
+  max-width: 520px;
+  font-size: 17px;
+  line-height: 1.9;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-bottom: 80px;
+}
+
+.header-decoration {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  color: var(--ink-faint);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.header-decoration .line {
+  width: 60px;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--ink-faint);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  animation: drift 3s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0%, 100% { opacity: 0.4; transform: translate(-50%, 0); }
+  50% { opacity: 1; transform: translate(-50%, 8px); }
+}
+
+/* TABLE OF CONTENTS */
+.toc {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 40px 80px;
+  border-bottom: 1px solid var(--line);
+}
+
+.toc-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.toc-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.toc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 4px 60px;
+}
+
+.toc-item {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 16px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: all 0.4s ease;
+}
+
+.toc-item:hover {
+  color: var(--accent-vanilla);
+  padding-left: 12px;
+}
+
+.toc-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-faint);
+  min-width: 24px;
+}
+
+.toc-icon {
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+/* SECTION */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 40px 80px;
+  position: relative;
+}
+
+.section-header {
+  margin-bottom: 80px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 60px;
+  align-items: end;
+}
+
+.section-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 96px;
+  line-height: 0.9;
+  color: var(--accent-vanilla);
+  opacity: 0.5;
+}
+
+.section-title-block {
+  border-top: 1px solid var(--line-strong);
+  padding-top: 24px;
+}
+
+.section-category {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  font-variation-settings: "opsz" 144;
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--accent-pistachio);
+}
+
+.section-desc {
+  font-size: 15px;
+  color: var(--ink-soft);
+  font-style: italic;
+  max-width: 480px;
+  line-height: 1.7;
+}
+
+/* MODULE GRID */
+.modules {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.modules.modules-2 { grid-template-columns: repeat(2, 1fr); }
+.modules.modules-3 { grid-template-columns: repeat(3, 1fr); }
+.modules.modules-4 { grid-template-columns: repeat(2, 1fr); }
+
+@media (max-width: 720px) {
+  .modules,
+  .modules.modules-2,
+  .modules.modules-3,
+  .modules.modules-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.module {
+  background: var(--bg-elevated);
+  padding: 32px 28px;
+  position: relative;
+  transition: background 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+.module:hover {
+  background: var(--bg-card);
+}
+
+.module-icon {
+  font-size: 28px;
+  margin-bottom: 16px;
+  display: block;
+  filter: saturate(1.1);
+}
+
+.module-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 4px;
+  font-variation-settings: "opsz" 36;
+}
+
+.module-name-en {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--accent-vanilla);
+  opacity: 0.7;
+  margin-bottom: 16px;
+  letter-spacing: 0.02em;
+}
+
+.module-identity {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.module-essence {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--ink-faint);
+  line-height: 1.6;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  letter-spacing: 0.01em;
+}
+
+.module-essence::before {
+  content: '"';
+  font-size: 24px;
+  color: var(--accent-vanilla);
+  opacity: 0.5;
+  margin-right: 4px;
+  font-family: 'Fraunces', serif;
+}
+
+/* CORE SECTION — special styling */
+.modules-core {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px) {
+  .modules-core { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .modules-core { grid-template-columns: 1fr; }
+}
+
+/* GENRE CARDS — different style for genre */
+.modules-genre {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  background: transparent;
+  border: none;
+}
+
+.modules-genre .module {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.modules-genre .module::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--accent-vanilla);
+  opacity: 0.6;
+  transition: width 0.4s ease;
+}
+
+.modules-genre .module:hover::before {
+  width: 100%;
+  opacity: 0.04;
+}
+
+.modules-genre .module:nth-child(1)::before { background: #b85a5a; }
+.modules-genre .module:nth-child(2)::before { background: #c9a050; }
+.modules-genre .module:nth-child(3)::before { background: #a8704a; }
+.modules-genre .module:nth-child(4)::before { background: #2a2620; }
+.modules-genre .module:nth-child(5)::before { background: #4a6040; }
+.modules-genre .module:nth-child(6)::before { background: #b07878; }
+.modules-genre .module:nth-child(7)::before { background: #8a5e30; }
+.modules-genre .module:nth-child(8)::before { background: #9a3a4a; }
+.modules-genre .module:nth-child(9)::before { background: #4a4030; }
+.modules-genre .module:nth-child(10)::before { background: #6a5640; }
+
+/* SUB-GENRE — chocolate variations */
+.modules-sub {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  background: transparent;
+  border: none;
+}
+
+.modules-sub .module {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  padding: 24px 22px;
+  min-height: auto;
+}
+
+/* TIER SHOWCASE — sapore / carrier */
+.tier-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: 40px;
+}
+
+.tier {
+  background: var(--bg-elevated);
+  padding: 36px 24px;
+  text-align: center;
+  position: relative;
+  transition: all 0.4s ease;
+}
+
+.tier:hover {
+  background: var(--bg-card);
+}
+
+.tier-mark {
+  font-size: 36px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.tier-label {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 18px;
+  margin-bottom: 4px;
+  letter-spacing: 0.02em;
+}
+
+.tier-label em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent-vanilla);
+}
+
+.tier-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.tier-desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+.tier.tier-default {
+  background: linear-gradient(135deg, #fbf6e9, #f0e8d5);
+}
+
+.tier.tier-default .tier-mark {
+  filter: drop-shadow(0 0 12px rgba(168, 133, 80, 0.4));
+}
+
+/* DIVIDER */
+.divider {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  color: var(--ink-faint);
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+/* FOOTER */
+.footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 40px 80px;
+  border-top: 1px solid var(--line);
+  margin-top: 80px;
+  text-align: center;
+}
+
+.footer-quote {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin-bottom: 60px;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer-quote em {
+  color: var(--accent-pistachio);
+}
+
+.footer-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer-meta .dot {
+  width: 4px;
+  height: 4px;
+  background: var(--ink-faint);
+  border-radius: 50%;
+}
+
+/* ANIMATIONS */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .section { padding: 80px 24px 60px; }
+  .section-header {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .section-num { font-size: 64px; }
+  .toc { padding: 60px 24px; }
+  .toc-grid { gap: 0 24px; }
+  .footer { padding: 80px 24px 60px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+<header class="header">
+  <div class="brand-mark">A SillyTavern Preset System</div>
+  <h1 class="header-title">Gel<em>a</em>to</h1>
+  <div class="header-version"><em>v 4.5</em></div>
+  <p class="header-subtitle">
+    여러 맛이 한 그릇에 담긴 결.<br>
+    각 모듈이 자기 결을 지키며 layered.<br>
+    점원 craft, 손님 우선.
+  </p>
+  <div class="header-decoration">
+    <span class="line"></span>
+    <span>Module Catalogue</span>
+    <span class="line"></span>
+  </div>
+  <div class="scroll-hint">↓ Scroll</div>
+</header>
+
+<!-- TABLE OF CONTENTS -->
+<nav class="toc">
+  <div class="toc-label">Index ※ 카탈로그</div>
+  <div class="toc-grid">
+    <a href="#core" class="toc-item">
+      <span class="toc-num">01</span>
+      <span class="toc-icon">🍨</span>
+      <span>Core · 코어</span>
+    </a>
+    <a href="#server" class="toc-item">
+      <span class="toc-num">02</span>
+      <span class="toc-icon">☀️</span>
+      <span>Server · 서버 응대</span>
+    </a>
+    <a href="#base" class="toc-item">
+      <span class="toc-num">03</span>
+      <span class="toc-icon">🇰🇷</span>
+      <span>Base · 출력 언어</span>
+    </a>
+    <a href="#sapore" class="toc-item">
+      <span class="toc-num">04</span>
+      <span class="toc-icon">🍦</span>
+      <span>Sapore · 대사 비율</span>
+    </a>
+    <a href="#pov" class="toc-item">
+      <span class="toc-num">05</span>
+      <span class="toc-icon">👤</span>
+      <span>Serving · POV</span>
+    </a>
+    <a href="#tense" class="toc-item">
+      <span class="toc-num">06</span>
+      <span class="toc-icon">❄️</span>
+      <span>Temperature · 시제</span>
+    </a>
+    <a href="#main" class="toc-item">
+      <span class="toc-num">07</span>
+      <span class="toc-icon">🍇</span>
+      <span>Gelato · 메인 장르</span>
+    </a>
+    <a href="#sub" class="toc-item">
+      <span class="toc-num">08</span>
+      <span class="toc-icon">🍫</span>
+      <span>Stracciatella · 보조 장르</span>
+    </a>
+    <a href="#carrier" class="toc-item">
+      <span class="toc-num">09</span>
+      <span class="toc-icon">🍨</span>
+      <span>Carrier · 호흡 양</span>
+    </a>
+    <a href="#topping" class="toc-item">
+      <span class="toc-num">10</span>
+      <span class="toc-icon">🍒</span>
+      <span>Topping · 환경+흐름</span>
+    </a>
+    <a href="#pacing" class="toc-item">
+      <span class="toc-num">11</span>
+      <span class="toc-icon">🐢</span>
+      <span>Pacing · 페이싱</span>
+    </a>
+    <a href="#deco" class="toc-item">
+      <span class="toc-num">12</span>
+      <span class="toc-icon">🌟</span>
+      <span>Decoration · 데코레이션</span>
+    </a>
+  </div>
+</nav>
+
+<!-- SECTION 01 — CORE -->
+<section class="section" id="core">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title-block">
+      <div class="section-category">Foundation</div>
+      <h2 class="section-title">Core · <em>코어</em></h2>
+      <p class="section-desc">시스템 정체성 + 메타 가드레일. 모든 모듈의 기반.</p>
+    </div>
+  </div>
+  <div class="modules modules-core">
+
+    <div class="module">
+      <span class="module-icon">🍨</span>
+      <h3 class="module-name">엔진</h3>
+      <div class="module-name-en">Engine</div>
+      <p class="module-identity">시스템 기반. Multi-POV 카메라, NPC 자율성, user 보호의 뿌리.</p>
+      <p class="module-essence">{{user}} is a customer in their world, not its center.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🛡️</span>
+      <h3 class="module-name">노 플레이버 드라운즈</h3>
+      <div class="module-name-en">No Flavor Drowns</div>
+      <p class="module-identity">user 균형 가드레일. 강한 NPC가 user를 짓누르지 않게.</p>
+      <p class="module-essence">That weight doesn't press down. It sits beside.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">📋</span>
+      <h3 class="module-name">테이스팅 노트</h3>
+      <div class="module-name-en">Tasting Notes</div>
+      <p class="module-identity">문체 규율. 자제, 변주, 결 보존의 메타 가이드.</p>
+      <p class="module-essence">Examples are direction, not template.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🎨</span>
+      <h3 class="module-name">텍스처</h3>
+      <div class="module-name-en">The Texture</div>
+      <p class="module-identity">캐릭터 입체감. 카드 충실도와 표면 변주의 균형.</p>
+      <p class="module-essence">Same trait, different surfaces each scene.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🌀</span>
+      <h3 class="module-name">플레이버 스월</h3>
+      <div class="module-name-en">Flavor Swirl</div>
+      <p class="module-identity">다인원 씬 weaving. 카메라 / 반응 교차 / 대사 crossfire.</p>
+      <p class="module-essence">Every present body has weight, even the ones staying quiet.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🚫</span>
+      <h3 class="module-name">노 시럽</h3>
+      <div class="module-name-en">No Syrup</div>
+      <p class="module-identity">안티 슬롭. AI 디폴트 어휘와 패턴 차단, 결 보존.</p>
+      <p class="module-essence">Cold stays cold. If a detail isn't essential, cut it.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 02 — SERVER -->
+<section class="section" id="server">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title-block">
+      <div class="section-category">Mode Toggle</div>
+      <h2 class="section-title">Server · <em>서버 응대</em></h2>
+      <p class="section-desc">손님 응대 모드. 점원의 행동 양식을 결정한다.</p>
+    </div>
+  </div>
+  <div class="modules">
+
+    <div class="module">
+      <span class="module-icon">☀️</span>
+      <h3 class="module-name">투데이즈 플레이버</h3>
+      <div class="module-name-en">Today's Flavor</div>
+      <p class="module-identity">손님이 점원에게 위임하는 모드. 점원이 손님을 읽고 알아서 추천한다.</p>
+      <p class="module-essence">A clerk doesn't pick the customer's wedding cake.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🛎️</span>
+      <h3 class="module-name">서비스 벨</h3>
+      <div class="module-name-en">Service Bell</div>
+      <p class="module-identity">손님 호출 응답 모드.</p>
+      <p class="module-essence">— · —</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🍦</span>
+      <h3 class="module-name">소르베</h3>
+      <div class="module-name-en">Sorbet</div>
+      <p class="module-identity">서버 페르소나 시리즈.</p>
+      <p class="module-essence">— · —</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🍦</span>
+      <h3 class="module-name">셔벗</h3>
+      <div class="module-name-en">Sherbet</div>
+      <p class="module-identity">서버 페르소나 시리즈.</p>
+      <p class="module-essence">— · —</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 03 — BASE -->
+<section class="section" id="base">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title-block">
+      <div class="section-category">Output Language</div>
+      <h2 class="section-title">Base · <em>출력 언어</em></h2>
+      <p class="section-desc">응답이 발화되는 언어. 베이스 위에 외국어 layer 가능.</p>
+    </div>
+  </div>
+  <div class="modules modules-3">
+
+    <div class="module">
+      <span class="module-icon">🇰🇷</span>
+      <h3 class="module-name">코리안 아웃풋</h3>
+      <div class="module-name-en">Korean Output</div>
+      <p class="module-identity">한국어 출력. 문학적 한국어 + 채팅체 차단 (타자 상황은 예외).</p>
+      <p class="module-essence">Chat-speak lives where chat-speak naturally lives.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🇺🇸</span>
+      <h3 class="module-name">잉글리시 아웃풋</h3>
+      <div class="module-name-en">English Output</div>
+      <p class="module-identity">영어 출력. 외국 캐릭터의 모국어 자연 발생 허용.</p>
+      <p class="module-essence">The language a person actually thinks in breaking through.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🌍</span>
+      <h3 class="module-name">네이티브 텅</h3>
+      <div class="module-name-en">Native Tongue</div>
+      <p class="module-identity">캐릭터 모국어 표출 강화. 베이스 언어 위에 layer.</p>
+      <p class="module-essence">Endearments stay in the language of the heart.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 04 — SAPORE -->
+<section class="section" id="sapore">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title-block">
+      <div class="section-category">Dialogue Density · 4-Tier Toggle</div>
+      <h2 class="section-title">Sapore · <em>대사 비율</em></h2>
+      <p class="section-desc">대사와 서술의 균형. 달 위상 메타포 — 어두움에서 밝음으로.</p>
+    </div>
+  </div>
+  <div class="tier-showcase">
+
+    <div class="tier tier-default">
+      <span class="tier-mark">🌕</span>
+      <div class="tier-label"><em>Adaptive</em></div>
+      <div class="tier-meta">Auto · 디폴트</div>
+      <p class="tier-desc">씬 종류에 맞춰 자동 조절. 일반 RP 추천.</p>
+    </div>
+
+    <div class="tier">
+      <span class="tier-mark">🌑</span>
+      <div class="tier-label">None</div>
+      <div class="tier-meta">0% · 무대사</div>
+      <p class="tier-desc">대사 없음. 솔로, 회상, 몽환, 무음 액션.</p>
+    </div>
+
+    <div class="tier">
+      <span class="tier-mark">🌒</span>
+      <div class="tier-label">Low</div>
+      <div class="tier-meta">10–30% · 균형</div>
+      <p class="tier-desc">서술과 분위기 중심. 일반 RP 균형 디폴트.</p>
+    </div>
+
+    <div class="tier">
+      <span class="tier-mark">🌔</span>
+      <div class="tier-label">High</div>
+      <div class="tier-meta">40–60% · 대화</div>
+      <p class="tier-desc">대화 중심. 카페, 파티, 논쟁, 일상 교류.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 05 — POV -->
+<section class="section" id="pov">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title-block">
+      <div class="section-category">Point of View · 3-Tier Toggle</div>
+      <h2 class="section-title">Serving · <em>POV</em></h2>
+      <p class="section-desc">시점과 인칭. 카메라가 어디 있는가.</p>
+    </div>
+  </div>
+  <div class="modules modules-3">
+
+    <div class="module">
+      <span class="module-icon">👤</span>
+      <h3 class="module-name">퍼스트 퍼슨</h3>
+      <div class="module-name-en">First Person</div>
+      <p class="module-identity">"나" / "I" — 캐릭터 내부 시점. 다른 NPC는 외부 관찰만.</p>
+      <p class="module-essence">The narrator's bias is honest and present.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">👥</span>
+      <h3 class="module-name">세컨드 퍼슨</h3>
+      <div class="module-name-en">Second Person</div>
+      <p class="module-identity">"너" / "you" — 독자 = 캐릭터. 친밀과 즉각성.</p>
+      <p class="module-essence">Used carefully, it creates intimacy. Used heavily, insistent.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🧑</span>
+      <h3 class="module-name">서드 퍼슨</h3>
+      <div class="module-name-en">Third Person · 디폴트</div>
+      <p class="module-identity">"그/그녀" / "He·She·They" — 외부 관찰자. 카메라 자유.</p>
+      <p class="module-essence">Never deep into one head, always at observation distance.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 06 — TEMPERATURE -->
+<section class="section" id="tense">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div class="section-title-block">
+      <div class="section-category">Tense · 3-Tier Toggle</div>
+      <h2 class="section-title">Temperature · <em>시제</em></h2>
+      <p class="section-desc">젤라또의 온도가 시간을 결정한다. 얼린, 신선한, 녹는.</p>
+    </div>
+  </div>
+  <div class="modules modules-3">
+
+    <div class="module">
+      <span class="module-icon">❄️</span>
+      <h3 class="module-name">딥 프리즈</h3>
+      <div class="module-name-en">Deep Freeze · 과거</div>
+      <p class="module-identity">과거 시제. "걸었다" / "He walked". 한국어 RP 디폴트.</p>
+      <p class="module-essence">Reflective distance — events feel recounted, considered.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🍦</span>
+      <h3 class="module-name">프레시</h3>
+      <div class="module-name-en">Fresh · 현재</div>
+      <p class="module-identity">현재 시제. "걷는다" / "He walks". 영어 RP에 흔함.</p>
+      <p class="module-essence">Immediacy — the reader is in the moment with the characters.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">☕️</span>
+      <h3 class="module-name">멜팅 엣지</h3>
+      <div class="module-name-en">Melting Edge · 혼합 (트리거)</div>
+      <p class="module-identity">현재와 과거 혼합. 감정 절정에서만 시간이 흐려진다.</p>
+      <p class="module-essence">A hand held that already feels released.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider">— Genre · 장르 —</div>
+
+<!-- SECTION 07 — MAIN GENRE -->
+<section class="section" id="main">
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <div class="section-title-block">
+      <div class="section-category">Main Flavors · Pick One</div>
+      <h2 class="section-title">Gelato · <em>메인 장르</em></h2>
+      <p class="section-desc">씬의 핵심 결을 결정하는 10가지 메인 맛.</p>
+    </div>
+  </div>
+  <div class="modules-genre">
+
+    <div class="module">
+      <span class="module-icon">🍇</span>
+      <h3 class="module-name">와일드 베리</h3>
+      <div class="module-name-en">Wild Berry</div>
+      <p class="module-identity">도시 누아르. 거친 거리, 어두운 골목, 차가운 도시감.</p>
+      <p class="module-essence">— · —</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🌾</span>
+      <h3 class="module-name">리조</h3>
+      <div class="module-name-en">Riso</div>
+      <p class="module-identity">일상 코미디. 평범한 순간의 부드러운 위트.</p>
+      <p class="module-essence">— · —</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🍂</span>
+      <h3 class="module-name">드라이드 퍼시먼</h3>
+      <div class="module-name-en">Dried Persimmon</div>
+      <p class="module-identity">한국적 견딤. 무너지지 않고 함께 서있는 결.</p>
+      <p class="module-essence">The bending and the standing are the same posture.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">💀</span>
+      <h3 class="module-name">블랙 세서미</h3>
+      <div class="module-name-en">Black Sesame</div>
+      <p class="module-identity">외부 위협 호러. 알 수 없는 무언가가 다가온다.</p>
+      <p class="module-essence">— · —</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🌿</span>
+      <h3 class="module-name">웜우드</h3>
+      <div class="module-name-en">Wormwood</div>
+      <p class="module-identity">프레임 내 광기. 안에서 무너지는 정신.</p>
+      <p class="module-essence">— · —</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🌺</span>
+      <h3 class="module-name">히비스커스</h3>
+      <div class="module-name-en">Hibiscus</div>
+      <p class="module-identity">지각 어긋남. 살짝 비틀린 현실.</p>
+      <p class="module-essence">A face held too long until it tilts.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🔎</span>
+      <h3 class="module-name">번트 슈가</h3>
+      <div class="module-name-en">Burnt Sugar</div>
+      <p class="module-identity">단서와 관찰. hold/surface 이중 메커니즘.</p>
+      <p class="module-essence">— · —</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">❤️</span>
+      <h3 class="module-name">포멜그라네이트</h3>
+      <div class="module-name-en">Pomegranate</div>
+      <p class="module-identity">진지한 친밀. 두 사람 사이 카메라가 끊지 않는 결.</p>
+      <p class="module-essence">The camera doesn't cut between them.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🧂</span>
+      <h3 class="module-name">스모크드 솔트</h3>
+      <div class="module-name-en">Smoked Salt</div>
+      <p class="module-identity">헤비 액션. character-switching 카메라.</p>
+      <p class="module-essence">Sparse but heavy.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🪵</span>
+      <h3 class="module-name">피그 월넛</h3>
+      <div class="module-name-en">Fig Walnut</div>
+      <p class="module-identity">진지한 판타지. 거리는 일수로, 계급과 맹세로.</p>
+      <p class="module-essence">Distance is measured in days.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 08 — SUB GENRE -->
+<section class="section" id="sub">
+  <div class="section-header">
+    <div class="section-num">08</div>
+    <div class="section-title-block">
+      <div class="section-category">Sub-Flavors · Optional Layer</div>
+      <h2 class="section-title">Stracciatella · <em>보조 장르</em></h2>
+      <p class="section-desc">메인 장르 위에 layer로 깔리는 8가지 보조 결.</p>
+    </div>
+  </div>
+  <div class="modules-sub">
+
+    <div class="module">
+      <span class="module-icon">🌑</span>
+      <h3 class="module-name">카카오 닙스</h3>
+      <div class="module-name-en">Cacao Nibs</div>
+      <p class="module-identity">트라우마와 영구 손상. 몸은 자국을 안고, 말은 조용하다.</p>
+      <p class="module-essence">The body carries the footprint; the words stay quiet.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🥀</span>
+      <h3 class="module-name">비터스위트</h3>
+      <div class="module-name-en">Bittersweet</div>
+      <p class="module-identity">그리움. 보고 있는데도 그리운, 뻗지 못한 손, 조심스런 터치.</p>
+      <p class="module-essence">Looking at them and missing them at the same time.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🍷</span>
+      <h3 class="module-name">루비 초콜릿</h3>
+      <div class="module-name-en">Ruby Chocolate</div>
+      <p class="module-identity">고딕 uncanny. 있어야 할 먼지가 없는, 어긋난 공기.</p>
+      <p class="module-essence">No dust where dust should be.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🔶</span>
+      <h3 class="module-name">밀크 초콜릿</h3>
+      <div class="module-name-en">Milk Chocolate</div>
+      <p class="module-identity">봉인 원 광기. 닫힌 세상 안의 아름다움.</p>
+      <p class="module-essence">— · —</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🍋</span>
+      <h3 class="module-name">시트러스 초콜릿</h3>
+      <div class="module-name-en">Citrus Chocolate</div>
+      <p class="module-identity">위트와 디소넌스. 빛나는 어긋남.</p>
+      <p class="module-essence">— · —</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🥃</span>
+      <h3 class="module-name">럼 초콜릿</h3>
+      <div class="module-name-en">Rum Chocolate</div>
+      <p class="module-identity">상호 immersion. 두 사람 모두 깊이 빠져드는 결.</p>
+      <p class="module-essence">— · —</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🤍</span>
+      <h3 class="module-name">화이트 초콜릿</h3>
+      <div class="module-name-en">White Chocolate</div>
+      <p class="module-identity">첫사랑. 진심으로 가득한 결.</p>
+      <p class="module-essence">Sincere through and through.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🍫</span>
+      <h3 class="module-name">컴파운드 초콜릿</h3>
+      <div class="module-name-en">Compound Chocolate</div>
+      <p class="module-identity">메인 아래 sub-layer. 한 번에 한 감각씩.</p>
+      <p class="module-essence">Stays under main structure. One sense at a time.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 09 — CARRIER -->
+<section class="section" id="carrier">
+  <div class="section-header">
+    <div class="section-num">09</div>
+    <div class="section-title-block">
+      <div class="section-category">Scene Size · 4-Tier Toggle</div>
+      <h2 class="section-title">Carrier · <em>호흡 양</em></h2>
+      <p class="section-desc">손님이 가져갈 양. 그릇 사이즈와 맛 가짓수의 결합.</p>
+    </div>
+  </div>
+  <div class="tier-showcase">
+
+    <div class="tier tier-default">
+      <span class="tier-mark">🌕</span>
+      <div class="tier-label"><em>Adaptive</em></div>
+      <div class="tier-meta">Auto · 디폴트</div>
+      <p class="tier-desc">손님이 원하는 양만큼 자동 조절.</p>
+    </div>
+
+    <div class="tier">
+      <span class="tier-mark">🥣</span>
+      <div class="tier-label">Cone</div>
+      <div class="tier-meta">한 맛 · 티키타카</div>
+      <p class="tier-desc">짧은 호흡. 한 가지 결 집중. 빠른 응수.</p>
+    </div>
+
+    <div class="tier">
+      <span class="tier-mark">🍨</span>
+      <div class="tier-label">Cup</div>
+      <div class="tier-meta">적은 맛 · 균형</div>
+      <p class="tier-desc">두세 가지 결 layered. neither cramped nor sprawling.</p>
+    </div>
+
+    <div class="tier">
+      <span class="tier-mark">🥛</span>
+      <div class="tier-label">Gallon</div>
+      <div class="tier-meta">다양한 맛 · 장황</div>
+      <p class="tier-desc">긴 호흡. 깊은 친밀, 다인원, 큰 사건.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider">— Optional Layers · 선택 토핑 —</div>
+
+<!-- SECTION 10 — TOPPING -->
+<section class="section" id="topping">
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <div class="section-title-block">
+      <div class="section-category">Topping · 있으면 좋고, 없어도 충분</div>
+      <h2 class="section-title">Topping · <em>환경 + 흐름</em></h2>
+      <p class="section-desc">메인 위에 선택적으로 얹는 layer. 풍부함을 더한다.</p>
+    </div>
+  </div>
+  <div class="modules">
+
+    <div class="module">
+      <span class="module-icon">🍯</span>
+      <h3 class="module-name">드리즐</h3>
+      <div class="module-name-en">Drizzle</div>
+      <p class="module-identity">오감 균형. 시각 외 청각, 촉각, 후각, 공기의 무게.</p>
+      <p class="module-essence">Reading the dish and adding the right amount is itself the craft.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🥜</span>
+      <h3 class="module-name">플롯 디벨롭먼트</h3>
+      <div class="module-name-en">Plot Development</div>
+      <p class="module-identity">시간 흐름, 장면 구성, 사건 다양성. 매 응답마다 다른 동력.</p>
+      <p class="module-essence">Events are breath, not crisis. Most events are weather, not lightning.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🍓</span>
+      <h3 class="module-name">리빙 월드</h3>
+      <div class="module-name-en">Living World</div>
+      <p class="module-identity">풍경, 배경, 분위기. 캐릭터가 알아채든 말든 흐르는 세상.</p>
+      <p class="module-essence">The world is sensed, not just seen.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🍒</span>
+      <h3 class="module-name">체리스 온 톱</h3>
+      <div class="module-name-en">Cherries on Top</div>
+      <p class="module-identity">NPC 능동 등장. 자기들의 세상을 살아가는 인물들.</p>
+      <p class="module-essence">They don't exist for {{user}}. They exist for themselves.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🍬</span>
+      <h3 class="module-name">파핑 캔디</h3>
+      <div class="module-name-en">Popping Candy</div>
+      <p class="module-identity">카메라와 NPC 분산. 사방으로 튀는 동적 결.</p>
+      <p class="module-essence">The camera is its own character.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🍪</span>
+      <h3 class="module-name">웨이퍼</h3>
+      <div class="module-name-en">Wafer</div>
+      <p class="module-identity">장면 전환. 매번 다른 각도, 다른 구조.</p>
+      <p class="module-essence">A cut, not a paragraph. The anchor changes each time.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 11 — PACING -->
+<section class="section" id="pacing">
+  <div class="section-header">
+    <div class="section-num">11</div>
+    <div class="section-title-block">
+      <div class="section-category">Pacing · 3-Tier Toggle</div>
+      <h2 class="section-title">Pacing · <em>호흡 속도</em></h2>
+      <p class="section-desc">시간의 진행 속도. 슬로우 번에서 페버까지.</p>
+    </div>
+  </div>
+  <div class="modules modules-3">
+
+    <div class="module">
+      <span class="module-icon">🐢</span>
+      <h3 class="module-name">슬로우 처언</h3>
+      <div class="module-name-en">Slow Churn</div>
+      <p class="module-identity">느린 페이싱. 사건과 감정 모두 시간을 들인다.</p>
+      <p class="module-essence">Feelings accumulate like sediment, not lightning.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🚶</span>
+      <h3 class="module-name">클래식 배치</h3>
+      <div class="module-name-en">Classic Batch · 디폴트</div>
+      <p class="module-identity">자연스런 호흡. 씬이 요구하는 리듬을 따른다.</p>
+      <p class="module-essence">Quick attractions are quick; slow recognitions are slow.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">⚡</span>
+      <h3 class="module-name">플래시 프리즈</h3>
+      <div class="module-name-en">Flash Freeze</div>
+      <p class="module-identity">빠른 페이싱. 사건이 압축되고 감정이 즉각 도착한다.</p>
+      <p class="module-essence">Feelings don't accumulate — they arrive whole.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 12 — DECORATION -->
+<section class="section" id="deco">
+  <div class="section-header">
+    <div class="section-num">12</div>
+    <div class="section-title-block">
+      <div class="section-category">Final Touch · 응답 마무리</div>
+      <h2 class="section-title">Decoration · <em>데코레이션</em></h2>
+      <p class="section-desc">시각 발현과 상태창. 응답을 마무리하는 결.</p>
+    </div>
+  </div>
+  <div class="modules modules-4">
+
+    <div class="module">
+      <span class="module-icon">🌟</span>
+      <h3 class="module-name">가니쉬</h3>
+      <div class="module-name-en">Garnish</div>
+      <p class="module-identity">시각 발현. HTML/CSS/Pollination/Motion으로 진짜 그 매체처럼.</p>
+      <p class="module-essence">Mimicry is precision. Recognizable in one glance.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🥄</span>
+      <h3 class="module-name">스푼 오픈</h3>
+      <div class="module-name-en">Spoon Open</div>
+      <p class="module-identity">상태창 시작. 응답 끝에 코드 블록을 연다.</p>
+      <p class="module-essence">Clean and readable.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">📝</span>
+      <h3 class="module-name">스푼 컨텐트</h3>
+      <div class="module-name-en">Spoon Content</div>
+      <p class="module-identity">상태창 5필드. 시간, 인물, 복장, 소지품, 장소.</p>
+      <p class="module-essence">RP's internal clock, never real-world time.</p>
+    </div>
+
+    <div class="module">
+      <span class="module-icon">🥄</span>
+      <h3 class="module-name">스푼 클로즈</h3>
+      <div class="module-name-en">Spoon Close</div>
+      <p class="module-identity">상태창 닫기 + 출력 순서 명시.</p>
+      <p class="module-essence">Prose → Status Panel → Server commentary.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p class="footer-quote">
+    여러 맛이 한 그릇에 담긴 결.<br>
+    각 모듈이 자기 결을 지키며, 다른 모듈과 충돌 없이 <em>layered</em>.<br>
+    점원이 손님 결정을 존중하고, 매 응답을 craft 로 만든다.
+  </p>
+  <div class="footer-meta">
+    <span>Gelato v4.5</span>
+    <span class="dot"></span>
+    <span>Module Catalogue</span>
+    <span class="dot"></span>
+    <span>2026</span>
+  </div>
+</footer>
+
+</div>
+
+<script>
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.section, .module, .tier').forEach(el => {
+  el.classList.add('fade-in');
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
